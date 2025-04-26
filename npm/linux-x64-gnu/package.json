@@ -11,7 +11,7 @@
   "files": [
     "hello-napi.linux-x64-gnu.node"
   ],
-  "description": "Template project for writing node package with napi-rs",
+  "description": "hello napi-rs",
   "keywords": [
     "napi-rs",
     "NAPI",
@@ -28,6 +28,7 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
+  "repository": "https://github.com/tktcorporation/hello-napi-rs",
   "libc": [
     "glibc"
   ]
