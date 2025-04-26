@@ -2,6 +2,7 @@
   "name": "@tktcorporation/hello-napi",
   "version": "1.0.2",
   "description": "Template project for writing node package with napi-rs",
+  "repository": "https://github.com/tktcorporation/hello-napi-rs",
   "main": "index.js",
   "license": "MIT",
   "keywords": [
