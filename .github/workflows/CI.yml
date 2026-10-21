@@ -28,11 +28,11 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 22.23.4
           cache: yarn
       - name: Install
         uses: dtolnay/rust-toolchain@stable
@@ -98,15 +98,15 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: yarn build --target aarch64-pc-windows-msvc
-    name: stable - ${{ matrix.settings.target }} - node@18
+    name: stable - ${{ matrix.settings.target }}
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         if: ${{ !matrix.settings.docker }}
         with:
-          node-version: 22
+          node-version: 22.23.4
           cache: yarn
       - name: Install
         uses: dtolnay/rust-toolchain@stable
@@ -155,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build FreeBSD
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         id: build
         uses: cross-platform-actions/action@v0.27.0
@@ -216,12 +216,12 @@ jobs:
             architecture: x64
         node:
           - '20'
-          - '22'
+          - '22.23.4'
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -247,12 +247,12 @@ jobs:
       matrix:
         node:
           - '20'
-          - '22'
+          - '22.23.4'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -277,12 +277,12 @@ jobs:
       matrix:
         node:
           - '20'
-          - '22'
+          - '22.23.4'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -309,10 +309,15 @@ jobs:
       matrix:
         node:
           - '20'
-          - '22'
+          - '22.23.4'
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22.23.4
+          cache: yarn
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -341,7 +346,12 @@ jobs:
       - build
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22.23.4
+          cache: yarn
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -370,12 +380,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node:
-          - '20'
-          - '22'
+        include:
+          - node: '20'
+            image: node:20-bullseye-slim
+          - node: '22.23.4'
+            image: node:22.23.4-bookworm-slim
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22.23.4
+          cache: yarn
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -396,7 +413,7 @@ jobs:
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: node:${{ matrix.node }}-bullseye-slim
+          image: ${{ matrix.image }}
           options: '--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
@@ -414,11 +431,11 @@ jobs:
       - test-linux-aarch64-musl-binding
       - test-linux-arm-gnueabihf-binding
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 22.23.4
           cache: yarn
       - name: Install dependencies
         run: yarn install
