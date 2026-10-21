@@ -65,8 +65,7 @@ jobs:
             build: yarn build --target x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            setup: sudo apt-get update && sudo apt-get install -y musl-tools
-            build: CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc yarn build --target x86_64-unknown-linux-musl
+            build: yarn build --target x86_64-unknown-linux-musl --zig
           - host: macos-latest
             target: aarch64-apple-darwin
             build: yarn build --target aarch64-apple-darwin
@@ -88,8 +87,7 @@ jobs:
             build: yarn build --target armv7-linux-androideabi
           - host: ubuntu-24.04-arm
             target: aarch64-unknown-linux-musl
-            setup: sudo apt-get update && sudo apt-get install -y musl-tools
-            build: CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc yarn build --target aarch64-unknown-linux-musl
+            build: yarn build --target aarch64-unknown-linux-musl --zig
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: yarn build --target aarch64-pc-windows-msvc
@@ -118,7 +116,7 @@ jobs:
             target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
       - uses: goto-bus-stop/setup-zig@v2
-        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
+        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' || endsWith(matrix.settings.target, '-musl') }}
         with:
           version: 0.14.0
       - name: Setup toolchain
